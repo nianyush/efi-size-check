@@ -50,3 +50,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+
+# Added by cargo
+
+/target
+/iso
+/esp
+/image
+
+OVMF_CODE.fd
+OVMF_VARS.fd
