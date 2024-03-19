@@ -61,3 +61,4 @@ dkms.conf
 
 OVMF_CODE.fd
 OVMF_VARS.fd
+fat.img

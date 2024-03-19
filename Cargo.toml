@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 log = "0.4.21"
-uefi = { version = "0.27.0", features=["alloc"] }
-uefi-services = "0.24.0"
+uefi = { git = "https://github.com/nianyush/uefi-rs.git", branch = "unchunked" }
+uefi-services = { git = "https://github.com/nianyush/uefi-rs.git", branch = "unchunked" }
+

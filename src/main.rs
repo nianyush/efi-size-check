@@ -43,7 +43,10 @@ fn main(image: Handle, mut st: SystemTable<Boot>) -> Status {
             uefi::proto::media::file::FileAttribute::empty(),
         ) {
             Ok(f) => f.into_regular_file().unwrap(),
-            Err(_) => break,
+            Err(_) => {
+                info!("Failed to open file: {:?}", file_name);
+                break;
+            }
         };
 
         info!("Reading {} bytes into buffer", format_bytes(buffer_size));
@@ -53,7 +56,7 @@ fn main(image: Handle, mut st: SystemTable<Boot>) -> Status {
             buffer.set_len(buffer_size);
         } // Unsafe due to uninitialized memory
 
-        match file.read(&mut buffer) {
+        match file.read_unchunked(&mut buffer) {
             Ok(_) => {
                 info!(
                     "Successfully read {} into buffer",
