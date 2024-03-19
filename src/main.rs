@@ -25,12 +25,18 @@ fn main(image: Handle, mut st: SystemTable<Boot>) -> Status {
 
     let mut buf = [0; 4];
     let file_name: &CStr16 = CStr16::from_str_with_buf("ABC", &mut buf).unwrap(); // Ensure this file exists on your ESP with a large size for testing
-    let mut buffer_size = 1024 * 1024 * 10; // Start with 1 MiB
-    let increment = 1024 * 1024 * 10; // Increase buffer size by 1 MiB in each iteration
-
+    const MIB: usize = 1024 * 1024;
+    const GIB: usize = MIB * 1024;
+    let mut buffer_size = MIB * 100; // Start with 100 MiB
+    let increment = MIB * 100; // Increase buffer size by 1 MiB in each iteration
+    let max: usize = GIB * 2; // 1 GiB
     info!("start to check...");
 
     loop {
+        if buffer_size > max {
+            info!("Max buffer size reached: {}", format_bytes(max));
+            break;
+        }
         let mut file = match root.open(
             file_name,
             FileMode::Read,
